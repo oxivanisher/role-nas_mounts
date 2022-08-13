@@ -1,2 +1,5 @@
 ---
-# defaults file for nas_mounts
+
+nas_mounts:
+    user:
+    pass:

@@ -1,2 +1,35 @@
 ---
-# tasks file for nas_mounts
+
+- name: install required package
+  ansible.builtin.package:
+    name: cifs-utils
+    state: present
+
+- name: configure NetworkManager to wait for connection
+  ansible.builtin.systemd:
+    name: NetworkManager-wait-online
+    enabled: yes
+
+- name: put cifspw file in place
+  ansible.builtin.template:
+    src: cifspw.jinja2
+    dest: /etc/cifspw
+    owner: root
+    group: root
+    mode: 0600
+
+- name: ensure media-archive mount
+  ansible.posix.mount:
+    path: /mnt/pot/media-archive
+    src: //10.5.20.4/media-archive
+    fstype: cifs
+    opts: auto,users,uid=oxi,gid=oxi,credentials=/etc/cifspw,vers=3
+    state: mounted
+
+- name: ensure media-archive mount
+  ansible.posix.mount:
+    path: /mnt/pot/home
+    src: //10.5.20.4/home
+    fstype: cifs
+    opts: auto,users,uid=oxi,gid=oxi,credentials=/etc/cifspw,vers=3
+    state: mounted
