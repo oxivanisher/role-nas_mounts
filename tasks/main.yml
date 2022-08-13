@@ -8,7 +8,7 @@
 - name: configure NetworkManager to wait for connection
   ansible.builtin.systemd:
     name: NetworkManager-wait-online
-    enabled: yes
+    enabled: true
 
 - name: put cifspw file in place
   ansible.builtin.template:
