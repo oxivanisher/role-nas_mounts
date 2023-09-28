@@ -1,24 +1,23 @@
 ---
-
-- name: install required package
+- name: Install required package
   ansible.builtin.package:
     name: cifs-utils
     state: present
 
-- name: configure NetworkManager to wait for connection
+- name: Configure NetworkManager to wait for connection
   ansible.builtin.systemd:
     name: NetworkManager-wait-online
     enabled: true
 
-- name: put cifspw file in place
+- name: Put cifspw file in place
   ansible.builtin.template:
     src: cifspw.jinja2
     dest: /etc/cifspw
     owner: root
     group: root
-    mode: 0600
+    mode: "0600"
 
-- name: ensure media-archive mount
+- name: Ensure media-archive mount
   ansible.posix.mount:
     path: /mnt/pot/media-archive
     src: //10.5.20.4/media-archive
@@ -26,7 +25,7 @@
     opts: auto,users,uid=oxi,gid=oxi,credentials=/etc/cifspw,vers=3
     state: mounted
 
-- name: ensure media-archive mount
+- name: Ensure media-archive mount
   ansible.posix.mount:
     path: /mnt/pot/home
     src: //10.5.20.4/home
