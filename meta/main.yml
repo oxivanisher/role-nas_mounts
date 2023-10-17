@@ -49,7 +49,5 @@ galaxy_info:
   galaxy_tags:
     - nas
 
-dependencies: []
-
-collections:
-  - ansible.posix
+dependencies:
+  - role: ansible.posix.mount
