@@ -24,7 +24,7 @@
     owner: "{{ nas_mounts_os_user }}"
     group: "{{ nas_mounts_os_user }}"
     mode: "0750"
-  loop: "{{ nas_mounts_cifs_mounts | dict2items }}"
+  loop: "{{ nas_mounts_cifs_mounts }}"
 
 - name: Ensure cifs mounts
   ansible.posix.mount:
@@ -33,4 +33,4 @@
     fstype: cifs
     opts: "auto,users,uid={{ nas_mounts_os_user }},gid={{ nas_mounts_os_user }},credentials=/etc/cifspw,vers=3"
     state: mounted
-  loop: "{{ nas_mounts_cifs_mounts | dict2items }}"
+  loop: "{{ nas_mounts_cifs_mounts }}"
