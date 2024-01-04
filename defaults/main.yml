@@ -1,4 +1,5 @@
 ---
-nas_mounts:
-    user:
-    pass:
+nas_mounts_os_user:
+nas_mounts_cifs_user:
+nas_mounts_cifs_password:
+nas_mounts_cifs_mounts: []

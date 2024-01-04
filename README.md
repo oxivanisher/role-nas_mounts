@@ -1,31 +1,42 @@
-Role Name
-=========
+nas_mounts
+==========
 
-A brief description of the role goes here.
+Mount filesystems from a NAS. Currently only cifs is supported.
 
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+For cifs, the file `/etc/cifspw` will be configured wih the supplied username and password. The file will be only readable by root.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Name          | Comment                              | Default value |
+|---------------|--------------------------------------|---------------|
+| nas_mounts_os_user  | The user on the system for which the mounts are configured  |           |
+| nas_mounts_cifs_user | The CIFS username on the nas |          |
+| nas_mounts_cifs_password | The CIFS password on the nas |          |
+| nas_mounts_cifs_mounts | A list of dicts containing `src` and `dest`. | `[]`     |
 
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Example config:
+```yaml
+nas_mounts_os_user: pi
+nas_mounts_cifs_user: usera
+nas_mounts_cifs_password: passwordb
+nas_mounts_cifs_mounts:
+  - src: //10.0.100.3/my-files
+    dest: /mnt/nas/my-files
+  - src: //10.0.100.4/more-files
+    dest: /mnt/nas/more-files
+```
 
 Example Playbook
 ----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- name: Mount NAS drives
+  hosts: client
+  collections:
+    - oxivanisher.linux_desktop
+  roles:
+    - role: oxivanisher.linux_desktop.nas_mounts
+```
 
 License
 -------
@@ -35,4 +46,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This role is part of the [oxivanisher.linux_desktop](https://galaxy.ansible.com/ui/repo/published/oxivanisher/linux_desktop/) collection, and the source for that is located on [github](https://github.com/oxivanisher/collection-linux_desktop).

@@ -17,18 +17,20 @@
     group: root
     mode: "0600"
 
-- name: Ensure media-archive mount
-  ansible.posix.mount:
-    path: /mnt/pot/media-archive
-    src: //10.5.20.4/media-archive
-    fstype: cifs
-    opts: auto,users,uid=oxi,gid=oxi,credentials=/etc/cifspw,vers=3
-    state: mounted
+- name: Ensure mount points
+  ansible.builtin.file:
+    path: "{{ item.dest }}"
+    state: directory
+    owner: "{{ nas_mounts_os_user }}"
+    group: "{{ nas_mounts_os_user }}"
+    mode: "0750"
+  loop: "{{ nas_mounts_cifs_mounts | dict2items }}"
 
-- name: Ensure media-archive mount
+- name: Ensure cifs mounts
   ansible.posix.mount:
-    path: /mnt/pot/home
-    src: //10.5.20.4/home
+    path: "{{ item.dest }}"
+    src: "{{ item.src }}"
     fstype: cifs
-    opts: auto,users,uid=oxi,gid=oxi,credentials=/etc/cifspw,vers=3
+    opts: "auto,users,uid={{ nas_mounts_os_user }},gid={{ nas_mounts_os_user }},credentials=/etc/cifspw,vers=3"
     state: mounted
+  loop: "{{ nas_mounts_cifs_mounts | dict2items }}"
