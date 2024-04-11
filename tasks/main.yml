@@ -3,11 +3,15 @@
   ansible.builtin.package:
     name: cifs-utils
     state: present
+  become: true
+  become_user: root
 
 - name: Configure NetworkManager to wait for connection
   ansible.builtin.systemd:
     name: NetworkManager-wait-online
     enabled: true
+  become: true
+  become_user: root
 
 - name: Put cifspw file in place
   ansible.builtin.template:
@@ -16,6 +20,8 @@
     owner: root
     group: root
     mode: "0600"
+  become: true
+  become_user: root
 
 - name: Ensure mount points
   ansible.builtin.file:
@@ -25,6 +31,8 @@
     group: "{{ nas_mounts_os_user }}"
     mode: "0750"
   loop: "{{ nas_mounts_cifs_mounts }}"
+  become: true
+  become_user: root
 
 - name: Ensure cifs mounts
   ansible.posix.mount:
@@ -34,3 +42,5 @@
     opts: "auto,users,uid={{ nas_mounts_os_user }},gid={{ nas_mounts_os_user }},credentials=/etc/cifspw,vers=3"
     state: mounted
   loop: "{{ nas_mounts_cifs_mounts }}"
+  become: true
+  become_user: root
