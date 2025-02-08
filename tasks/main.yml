@@ -39,7 +39,7 @@
     path: "{{ item.dest }}"
     src: "{{ item.src }}"
     fstype: cifs
-    opts: "auto,users,uid={{ nas_mounts_os_user }},gid={{ nas_mounts_os_user }},credentials=/etc/cifspw,vers=3"
+    opts: "auto,users,_netdev,uid={{ nas_mounts_os_user }},gid={{ nas_mounts_os_user }},credentials=/etc/cifspw,vers=3"
     state: mounted
   loop: "{{ nas_mounts_cifs_mounts }}"
   become: true
