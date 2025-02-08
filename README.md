@@ -1,5 +1,6 @@
 nas_mounts
 ==========
+[![Ansible Lint](https://github.com/oxivanisher/role-nas_mounts/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/oxivanisher/role-nas_mounts/actions/workflows/ansible-lint.yml)
 
 Mount filesystems from a NAS. Currently only cifs is supported.
 
