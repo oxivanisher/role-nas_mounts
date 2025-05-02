@@ -4,7 +4,7 @@ nas_mounts
 
 Mount filesystems from a NAS. Currently only cifs is supported.
 
-For cifs, the file `/etc/cifspw` will be configured wih the supplied username and password. The file will be only readable by root.
+For cifs, the file `/etc/cifspw` will be configured wih the supplied username and password. The file will be only readable by `root` and the configured `nas_mounts_os_user` so that he is able to execute `mount -a`.
 
 Role Variables
 --------------
