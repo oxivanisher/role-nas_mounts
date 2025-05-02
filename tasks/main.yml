@@ -17,9 +17,9 @@
   ansible.builtin.template:
     src: cifspw.jinja2
     dest: /etc/cifspw
-    owner: root
+    owner: "{{ nas_mounts_os_user }}"
     group: root
-    mode: "0600"
+    mode: "0660"
   become: true
   become_user: root
 
