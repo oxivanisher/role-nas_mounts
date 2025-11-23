@@ -23,17 +23,6 @@
   become: true
   become_user: root
 
-- name: Ensure mount points
-  ansible.builtin.file:
-    path: "{{ item.dest }}"
-    state: directory
-    owner: "{{ nas_mounts_os_user }}"
-    group: "{{ nas_mounts_os_user }}"
-    mode: "0750"
-  loop: "{{ nas_mounts_cifs_mounts }}"
-  become: true
-  become_user: root
-
 - name: Ensure cifs mounts
   ansible.posix.mount:
     path: "{{ item.dest }}"
