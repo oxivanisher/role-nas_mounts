@@ -26,14 +26,16 @@
     src: "{{ item.src }}"
     fstype: cifs
     opts: >-
-      {{ (_nas_mounts_base_opts + (_nas_mounts_gvfs_opts if _nas_mounts_gvfs_show | bool else [])) | join(',') }}
+      {{ (_nas_mounts_base_opts
+          + [_nas_mounts_access]
+          + (_nas_mounts_gvfs_opts if _nas_mounts_gvfs_show | bool else []))
+         | join(',') }}
     state: mounted
   loop: "{{ nas_mounts_cifs_mounts }}"
   loop_control:
     label: "{{ item.dest }}"
   vars:
-    _nas_mounts_gvfs_show: "{{ item.gvfs_show | default(nas_mounts_gvfs_show) }}"
-    _nas_mounts_gvfs_name: "{{ item.name | default(item.dest | basename, true) }}"
+    _nas_mounts_access: "{{ 'ro' if item.readonly | default(false) | bool else 'rw' }}"
     _nas_mounts_base_opts:
       - auto
       - users
@@ -42,7 +44,10 @@
       - "gid={{ nas_mounts_os_user }}"
       - credentials=/etc/cifspw
       - vers=3
+    _nas_mounts_gvfs_name: "{{ item.name | default(item.dest | basename, true) }}"
+    _nas_mounts_gvfs_show: "{{ item.gvfs_show | default(nas_mounts_gvfs_show) }}"
     _nas_mounts_gvfs_opts:
       - x-gvfs-show
       - "x-gvfs-name={{ _nas_mounts_gvfs_name | urlencode }}"
   become: true
+  notify: Reload systemd
