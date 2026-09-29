@@ -9,12 +9,12 @@ For cifs, the file `/etc/cifspw` will be configured wih the supplied username an
 Role Variables
 --------------
 
-| Name          | Comment                              | Default value |
-|---------------|--------------------------------------|---------------|
-| nas_mounts_os_user  | The user on the system for which the mounts are configured  |           |
-| nas_mounts_cifs_user | The CIFS username on the nas |          |
-| nas_mounts_cifs_password | The CIFS password on the nas |          |
-| nas_mounts_cifs_mounts | A list of dicts containing `src` and `dest`. | `[]`     |
+| Name                     | Comment                                                    | Default value |
+| ------------------------ | ---------------------------------------------------------- | ------------- |
+| nas_mounts_os_user       | The user on the system for which the mounts are configured |               |
+| nas_mounts_cifs_user     | The CIFS username on the nas                               |               |
+| nas_mounts_cifs_password | The CIFS password on the nas                               |               |
+| nas_mounts_cifs_mounts   | A list of dicts containing `src` and `dest`.               | `[]`          |
 
 Example config:
 ```yaml
@@ -22,11 +22,14 @@ nas_mounts_os_user: pi
 nas_mounts_cifs_user: usera
 nas_mounts_cifs_password: passwordb
 nas_mounts_cifs_mounts:
-  - src: //10.0.100.3/my-files
+  - name: my files
+    src: //10.0.100.3/my-files
     dest: /mnt/nas/my-files
   - src: //10.0.100.4/more-files
     dest: /mnt/nas/more-files
 ```
+
+The name is used for the `x-gvfs-name` option. If omitted, it will use the basename of `dest`.
 
 Example Playbook
 ----------------
