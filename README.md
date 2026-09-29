@@ -15,6 +15,7 @@ Role Variables
 | nas_mounts_cifs_user     | The CIFS username on the nas                               |               |
 | nas_mounts_cifs_password | The CIFS password on the nas                               |               |
 | nas_mounts_cifs_mounts   | A list of dicts containing `src` and `dest`.               | `[]`          |
+| nas_mounts_gvfs_show     | Show the mounts i.e. in nemo default (`x-gvfs-show`)       | `true`        |
 
 Example config:
 ```yaml
@@ -27,6 +28,7 @@ nas_mounts_cifs_mounts:
     dest: /mnt/nas/my-files
   - src: //10.0.100.4/more-files
     dest: /mnt/nas/more-files
+    gvfs_show: false
 ```
 
 The name is used for the `x-gvfs-name` option. If omitted, it will use the basename of `dest`.
